@@ -15,15 +15,19 @@ use Magento\Framework\View\TemplateEngine\Php;
 /** @var Php $this */
 /** @var Escaper $escaper */
 /** @var Filter $block */
-
-$filters = $block->getActiveFilters();
 ?>
 
-<div class="<?= $block->getData('filtersClass'); ?>">
-    <button type="button" id="filtersTriggerButton" class="<?= $block->getData('triggerFilterClass'); ?>">
-        <span class="<?= $block->getData('labelClass'); ?>"><?= __('Filters'); ?></span>
-        <span class="<?= $block->getData('countClass'); ?>"><?= count($filters); ?></span>
-    </button>
-</div>
-
-<?= $block->getChildHtml('js'); ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'domReady',
+        'offCanvas'
+    ], function($, domReady) {
+        domReady(function() {
+            $('#catalog-category-view-sidebar-main').offcanvas({
+                triggerButton: '#filtersTriggerButton',
+                modifiers: '<?= $block->getDirection(); ?>, overlay'
+            });
+        });
+    });
+</script>

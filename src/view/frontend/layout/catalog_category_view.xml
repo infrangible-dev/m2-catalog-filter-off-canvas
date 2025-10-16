@@ -9,7 +9,15 @@
     <body>
         <referenceContainer name="div.sidebar.main" htmlId="catalog-category-view-sidebar-main"/>
         <referenceBlock name="product_list_toolbar">
-            <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter.phtml"/>
+            <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter.phtml">
+                <arguments>
+                    <argument name="filtersClass" xsi:type="string">filters</argument>
+                    <argument name="triggerFilterClass" xsi:type="string">filter-trigger</argument>
+                    <argument name="labelClass" xsi:type="string">filter-trigger-label</argument>
+                    <argument name="countClass" xsi:type="string">filter-trigger-count</argument>
+                </arguments>
+                <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_js" as="js" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/js.phtml"/>
+            </block>
         </referenceBlock>
     </body>
 </page>
