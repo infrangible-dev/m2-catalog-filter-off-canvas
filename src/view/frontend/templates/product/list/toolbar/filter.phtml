@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+use Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\TemplateEngine\Php;
+
+/**
+ * @author      Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ */
+
+/** @var Php $this */
+/** @var Escaper $escaper */
+/** @var Filter $block */
+
+$filters = $block->getActiveFilters();
+?>
+
+<div class="filters">
+    <button id="filtersTriggerButton" class="filter-trigger" type="button">
+        <span class="filter-trigger-label"><?= __('Filters'); ?></span>
+        <span class="filter-trigger-count"><?= count($filters); ?></span>
+    </button>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'domReady',
+        'offCanvas'
+    ], function($, domReady) {
+        domReady(function() {
+            $('#catalog-category-view-sidebar-main').offcanvas({
+                triggerButton: '#filtersTriggerButton',
+                modifiers: '<?= $block->getDirection(); ?>, overlay'
+            });
+        });
+    });
+</script>
