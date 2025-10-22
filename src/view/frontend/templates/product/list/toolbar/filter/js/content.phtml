@@ -17,6 +17,17 @@ use Magento\Framework\View\TemplateEngine\Php;
 /** @var Filter $block */
 ?>
 
-<?= $block->getChildHtml('prior'); ?>
-<?= $block->getChildHtml('content'); ?>
-<?= $block->getChildHtml('additional'); ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'domReady',
+        'offCanvas'
+    ], function($, domReady) {
+        domReady(function() {
+            $('#catalog-category-view-sidebar-main').offcanvas({
+                triggerButton: '#filtersTriggerButton',
+                modifiers: '<?= $block->getDirection(); ?>, overlay'
+            });
+        });
+    });
+</script>

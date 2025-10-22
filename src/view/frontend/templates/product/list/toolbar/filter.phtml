@@ -19,7 +19,6 @@ use Magento\Framework\View\TemplateEngine\Php;
 $filters = $block->getActiveFilters();
 ?>
 
-<div class="<?= $block->getData('filtersClass'); ?>">
-    <?= $block->getChildHtml('button'); ?>
-    <?= $block->getChildHtml('js'); ?>
-</div>
+<?= $block->getChildHtml('prior'); ?>
+<?= $block->getChildHtml('content'); ?>
+<?= $block->getChildHtml('additional'); ?>

@@ -19,7 +19,6 @@ use Magento\Framework\View\TemplateEngine\Php;
 $filters = $block->getActiveFilters();
 ?>
 
-<button type="button" id="filtersTriggerButton" class="<?= $block->getData('triggerFilterClass'); ?>">
-    <span class="<?= $block->getData('labelClass'); ?>"><?= __('Filters'); ?></span>
-    <span class="<?= $block->getData('countClass'); ?>"><?= count($filters); ?></span>
-</button>
+<?= $block->getChildHtml('prior'); ?>
+<?= $block->getChildHtml('content'); ?>
+<?= $block->getChildHtml('additional'); ?>
