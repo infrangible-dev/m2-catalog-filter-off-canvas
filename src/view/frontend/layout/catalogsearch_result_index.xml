@@ -10,13 +10,30 @@
         <referenceContainer name="div.sidebar.main" htmlId="catalog-category-view-sidebar-main"/>
         <referenceBlock name="product_list_toolbar">
             <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter.phtml">
-                <arguments>
-                    <argument name="filtersClass" xsi:type="string">filters</argument>
-                    <argument name="triggerFilterClass" xsi:type="string">filter-trigger</argument>
-                    <argument name="labelClass" xsi:type="string">filter-trigger-label</argument>
-                    <argument name="countClass" xsi:type="string">filter-trigger-count</argument>
-                </arguments>
-                <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_js" as="js" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/js.phtml"/>
+                <container name="product_list_toolbar_filter_prior" as="prior" htmlTag="div"/>
+                <container name="product_list_toolbar_filter_content" as="content" htmlTag="div" htmlClass="filters">
+                    <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_button" as="button" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/button.phtml">
+                        <container name="product_list_toolbar_filter_button_prior" as="prior" htmlTag="div"/>
+                        <container name="product_list_toolbar_filter_button_content" as="content">
+                            <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_button_content_content" as="button" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/button/content.phtml">
+                                <arguments>
+                                    <argument name="triggerFilterClass" xsi:type="string">filter-trigger</argument>
+                                    <argument name="labelClass" xsi:type="string">filter-trigger-label</argument>
+                                    <argument name="countClass" xsi:type="string">filter-trigger-count</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                        <container name="product_list_toolbar_filter_button_additional" as="additional" htmlTag="div"/>
+                    </block>
+                    <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_js" as="js" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/js.phtml">
+                        <container name="product_list_toolbar_filter_js_prior" as="prior" htmlTag="div"/>
+                        <container name="product_list_toolbar_filter_js_content" as="content">
+                            <block class="Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter" name="product_list_toolbar_filter_js_content_content" as="js" template="Infrangible_CatalogFilterOffCanvas::product/list/toolbar/filter/js/content.phtml"/>
+                        </container>
+                        <container name="product_list_toolbar_filter_js_additional" as="additional" htmlTag="div"/>
+                    </block>
+                </container>
+                <container name="product_list_toolbar_filter_additional" as="additional" htmlTag="div"/>
             </block>
         </referenceBlock>
     </body>
