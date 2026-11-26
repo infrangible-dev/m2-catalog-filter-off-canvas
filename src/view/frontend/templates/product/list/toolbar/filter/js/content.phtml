@@ -2,32 +2,21 @@
 
 declare(strict_types=1);
 
-use Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter;
-use Magento\Framework\Escaper;
-use Magento\Framework\View\TemplateEngine\Php;
-
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2026 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 
-/** @var Php $this */
-/** @var Escaper $escaper */
+use Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter;
+
 /** @var Filter $block */
 ?>
 
-<script type="text/javascript">
-    require([
-        'jquery',
-        'domReady',
-        'offCanvas'
-    ], function($, domReady) {
-        domReady(function() {
-            $('#catalog-category-view-sidebar-main').offcanvas({
-                triggerButton: '#filtersTriggerButton',
-                modifiers: '<?= $block->getDirection(); ?>, overlay'
-            });
-        });
-    });
+<script type="text/x-magento-init">
+    {
+        "#catalog-category-view-sidebar-main": {
+            "catalogFilterOffCanvas": <?= /* @noEscape */ $block->getOffCanvasConfig() ?>
+        }
+    }
 </script>

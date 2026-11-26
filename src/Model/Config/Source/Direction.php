@@ -2,15 +2,31 @@
 
 declare(strict_types=1);
 
-namespace Infrangible\CatalogFilterOffCanvas\Model\Config\Source;
-
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2026 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
-class Direction implements \Magento\Framework\Data\OptionSourceInterface
+
+namespace Infrangible\CatalogFilterOffCanvas\Model\Config\Source;
+
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\Phrase;
+
+/**
+ * The sides the off-canvas panel can open from.
+ */
+class Direction implements OptionSourceInterface
 {
+    /** The sides that the panel supports, the first is the default. */
+    public const DIRECTIONS = ['left', 'right', 'top', 'bottom'];
+
+    /**
+     * Returns the sides.
+     *
+     * @return array
+     * @phpstan-return list<array{value: string, label: Phrase}>
+     */
     public function toOptionArray(): array
     {
         return [

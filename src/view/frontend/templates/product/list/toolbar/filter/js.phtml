@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-use Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar\Filter;
-use Magento\Framework\Escaper;
-use Magento\Framework\View\TemplateEngine\Php;
-
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2026 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 
-/** @var Php $this */
-/** @var Escaper $escaper */
-/** @var Filter $block */
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
 ?>
 
-<?= $block->getChildHtml('prior'); ?>
-<?= $block->getChildHtml('content'); ?>
-<?= $block->getChildHtml('additional'); ?>
+<?= $block->getChildHtml('prior') ?>
+<?= $block->getChildHtml('content') ?>
+<?= $block->getChildHtml('additional') ?>

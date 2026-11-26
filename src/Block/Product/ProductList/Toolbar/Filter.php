@@ -2,67 +2,130 @@
 
 declare(strict_types=1);
 
+/**
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2026 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ */
+
 namespace Infrangible\CatalogFilterOffCanvas\Block\Product\ProductList\Toolbar;
 
+use FeWeDev\Base\Json;
+use Infrangible\CatalogFilterOffCanvas\Model\Config\Source\Direction;
 use Infrangible\Core\Helper\Stores;
+use Magento\Catalog\Model\Layer;
+use Magento\Catalog\Model\Layer\Filter\Item;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\View\Element\Template;
 
 /**
- * @author      Andreas Knollmann
- * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
- * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ * The filter button of the product list toolbar and the configuration of the off-canvas panel with the layered
+ * navigation.
  */
 class Filter extends Template
 {
-    /** @var \Magento\Catalog\Model\Layer\Resolver */
-    private $layerResolver;
-
-    /** @var Stores */
-    private $storeHelper;
-
+    /**
+     * @param Template\Context $context
+     * @param Resolver $layerResolver
+     * @param Stores $storeHelper
+     * @param Json $json
+     * @param array $data
+     * @phpstan-param array<string, mixed> $data
+     */
     public function __construct(
         Template\Context $context,
-        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
-        Stores $storeHelper,
+        protected Resolver $layerResolver,
+        protected Stores $storeHelper,
+        protected Json $json,
         array $data = []
     ) {
         parent::__construct(
             $context,
             $data
         );
-
-        $this->layerResolver = $layerResolver;
-        $this->storeHelper = $storeHelper;
     }
 
     /**
-     * @return \Magento\Catalog\Model\Layer\Filter\Item[]
+     * Returns the applied filters of the product list.
+     *
+     * @return list<Item>
      */
     public function getActiveFilters(): array
     {
-        $filters = $this->getLayer()->getState()->getFilters();
+        $filters = [];
 
-        if (! is_array($filters)) {
-            $filters = [];
+        foreach ($this->getLayer()->getState()->getFilters() as $filter) {
+            if ($filter instanceof Item) {
+                $filters[] = $filter;
+            }
         }
 
         return $filters;
     }
 
-    protected function getLayer(): \Magento\Catalog\Model\Layer
+    /**
+     * Returns the number of applied filters.
+     *
+     * @return int
+     */
+    public function getActiveFilterCount(): int
     {
-        if (! $this->hasData('layer')) {
-            $this->setData(
-                'layer',
-                $this->layerResolver->get()
-            );
-        }
-
-        return $this->_getData('layer');
+        return count($this->getActiveFilters());
     }
 
+    /**
+     * Returns the layer of the product list.
+     *
+     * @return Layer
+     */
+    protected function getLayer(): Layer
+    {
+        $layer = $this->_getData('layer');
+
+        if (! $layer instanceof Layer) {
+            $layer = $this->layerResolver->get();
+
+            $this->setData('layer', $layer);
+        }
+
+        return $layer;
+    }
+
+    /**
+     * Returns the side the panel opens from: left (default), right, top or bottom.
+     *
+     * @return string
+     */
     public function getDirection(): string
     {
-        return $this->storeHelper->getStoreConfig('infrangible_catalogfilteroffcanvas/general/direction');
+        $direction = $this->storeHelper->getStoreConfig('infrangible_catalogfilteroffcanvas/general/direction');
+
+        return in_array($direction, Direction::DIRECTIONS, true) ? $direction : Direction::DIRECTIONS[ 0 ];
+    }
+
+    /**
+     * Returns a value of the block data as string, for example a CSS class from the layout.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getDataString(string $key): string
+    {
+        $value = $this->getData($key);
+
+        return is_scalar($value) ? (string)$value : '';
+    }
+
+    /**
+     * Returns the configuration of the JavaScript component of the panel as JSON.
+     *
+     * @return string
+     */
+    public function getOffCanvasConfig(): string
+    {
+        return $this->json->encode(
+            ['triggerButton' => '#filtersTriggerButton', 'direction' => $this->getDirection()]
+        ) ?? '{}';
     }
 }
